@@ -1,0 +1,32 @@
+spring:
+  ## Uncomment the following block to switch to h2 database
+  #  profiles:
+  #    active: h2
+  datasource:
+    url: jdbc:mysql://localhost:3306/opentxt_notesapp
+    username: root
+    password: root
+
+  ## Hibernate Properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+    show_sql: true
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userClient:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+
